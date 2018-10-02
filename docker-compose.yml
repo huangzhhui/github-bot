@@ -1,0 +1,12 @@
+version: '3'
+services:
+    swoft:
+        container_name: githubbot
+        image: swoft/swoft
+        ports:
+            - "80:80"
+        volumes:
+            - ./:/var/www/swoft
+        stdin_open: true
+        tty: true
+        entrypoint: /bin/bash
