@@ -19,4 +19,8 @@ return <<<RELEASE
 ### Fixed
 
 ::fixed
+
+### Others
+
+::others
 RELEASE;

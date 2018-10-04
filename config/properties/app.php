@@ -20,5 +20,16 @@ return [
         'merge' => [
             'method' => env('GITHUB_MERGE_METHOD', 'squash'),
         ],
-    ]
+        'release' => [
+            'message_cate' => [
+                'added' => ['feat:', 'feature:', 'add:'],
+                'changed' => ['change:', 'refactor:', 'modify:'],
+                'fixed' => ['fix:', 'fixed:'],
+                'deprecated' => ['deprecated:'],
+                'removed' => ['remove:', 'delete:'],
+            ],
+            'message_template' => '@configs/templates/release.php',
+            'repository_alias' => [],
+        ],
+    ],
 ];
