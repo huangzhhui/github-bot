@@ -20,20 +20,39 @@ class MergePullRequest extends AbstractEnpoint
      */
     protected $repository;
 
-    public function __construct(string $repository, int $pullRequestId)
+    /**
+     * @var array
+     */
+    protected $target;
+
+    public function __construct(string $repository, int $pullRequestId, array $target)
     {
         $this->repository = $repository;
         $this->pullRequestId = $pullRequestId;
+        $this->target = $target;
     }
 
     public function __invoke()
     {
         $this->addApprovedComment($this->repository, $this->pullRequestId);
         $mergeUrl = GithubUrlBuilder::buildPullRequestUrl($this->repository, $this->pullRequestId) . '/merge';
+        $params = [
+            'merge_method' => config('github.merge.method', 'squash'),
+        ];
+        $pullRequestTitle = value(function () {
+            if (isset($this->target['issue']['title'])) {
+                return str_replace([
+                    'title', 'url'
+                ], [
+                    $this->target['issue']['title'],
+                    $this->target['issue']['pull_request']['html_url'],
+                ], 'title (url)');
+            }
+            return '';
+        });
+        $pullRequestTitle && $params['commit_title'] = $pullRequestTitle;
         $response = $this->getClient()->put($mergeUrl, [
-            'json' => [
-                'merge_method' => config('github.merge.method', 'squash'),
-            ]
+            'json' => $params
         ])->getResponse();
         if ($response->getStatusCode() !== 200) {
             // Add a comment to notice the member the merge operation failure.

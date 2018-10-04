@@ -51,7 +51,7 @@ class CommandManager
         $pullRequestId = $this->parseIssueId($target);
         switch ($prefix) {
             case '/merge':
-                $endPoint = new MergePullRequest($repository, $pullRequestId);
+                $endPoint = new MergePullRequest($repository, $pullRequestId, $target);
                 break;
             case '/request-changes':
             case '/request_changes':
@@ -80,7 +80,7 @@ class CommandManager
                 break;
             case '/release':
                 $body = $this->parseBody($explodedCommand);
-                $endPoint = new Release($repository, $pullRequestId, $body);
+                $endPoint = new Release($repository, $pullRequestId, $body, $target);
                 break;
         }
         $endPoint instanceof EndpointInterface && $this->githubService->execute($endPoint);
