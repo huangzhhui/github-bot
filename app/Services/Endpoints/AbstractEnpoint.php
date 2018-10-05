@@ -14,6 +14,7 @@ use Swoft\HttpClient\Client;
 
 abstract class AbstractEnpoint implements EndpointInterface
 {
+
     protected function getClient(): Client
     {
         return GithubClientBuilder::create();

@@ -41,7 +41,7 @@ class RequestChanges extends AbstractEnpoint
     protected function review($status): ResponseInterface
     {
         $pullRequestUrl = GithubUrlBuilder::buildPullRequestUrl($this->repository, $this->pullRequestId) . '/reviews';
-        return GithubClientBuilder::create()->post($pullRequestUrl, [
+        return $this->getClient()->post($pullRequestUrl, [
             'json' => [
                 'body' => $this->body,
                 'event' => $status,

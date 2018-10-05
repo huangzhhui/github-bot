@@ -5,7 +5,6 @@
  */
 namespace App\Services;
 
-use App\Enums\Github;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Value;
 use Swoft\Http\Message\Server\Request;

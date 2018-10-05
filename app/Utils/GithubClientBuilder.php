@@ -12,10 +12,10 @@ use Swoft\HttpClient\Client;
  */
 class GithubClientBuilder
 {
-    public static function create()
+    public static function create(string $baseUri = 'https://api.github.com')
     {
         return new Client([
-            'base_uri' => 'https://api.github.com',
+            'base_uri' => $baseUri,
             'headers' => [
                 'User-Agent' => config('github.user_agent', 'Github-Bot'),
                 'Authorization' => 'token ' . config('github.access_token'),
