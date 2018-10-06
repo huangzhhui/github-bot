@@ -64,7 +64,7 @@ class Release extends AbstractEnpoint
             $result = explode(' ', $body, 2);
             return [
                 isset($result[0]) && $result[0] ? $result[0] : 'self',
-                isset($result[0]) && $result[0] ? $result[0] : 'step'
+                isset($result[1]) && $result[1] ? $result[1] : 'step'
             ];
         });
         $this->project = value(function () use ($project) {

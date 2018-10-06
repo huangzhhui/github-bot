@@ -40,6 +40,11 @@ class Distribute extends AbstractEnpoint
      */
     protected $body;
 
+    /**
+     * @var string
+     */
+    protected $repositoryDir;
+
     public function __construct(string $repository, int $pullRequestId, string $body, array $target)
     {
         $this->repository = $repository;
@@ -64,19 +69,17 @@ class Distribute extends AbstractEnpoint
         if (! file_exists($dir) && ! mkdir($dir, 0777, true) && ! is_dir($dir)) {
             throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
         }
-        $repositoryDir = $dir . '/' . $repository;
-        if (! file_exists($repositoryDir)) {
-            $command = 'cd dir && git clone git@github.com:repository.git targetDir';
-            $command = str_replace('dir', $dir, $command);
-            $command = str_replace('repository', $repository, $command);
-            $command = str_replace('targetDir', $repository, $command);
+        $this->repositoryDir = $dir . '/' . $repository;
+        if (! file_exists($this->repositoryDir)) {
+            $command = 'cd %s && git clone git@github.com:%s.git %s';
+            $command = sprintf($command, $dir, $repository, $repository);
             $output = [];
             echo $command . PHP_EOL;
             exec($command, $output);
         }
-        if (file_exists($repositoryDir)) {
-            $command = 'cd dir && git pull --no-edit';
-            $command = str_replace('dir', $repositoryDir, $command);
+        if (file_exists($this->repositoryDir)) {
+            $command = 'cd %s && git pull --no-edit';
+            $command = sprintf($command, $this->repositoryDir);
             $output = [];
             echo $command . PHP_EOL;
             exec($command, $output);
@@ -121,8 +124,8 @@ class Distribute extends AbstractEnpoint
     {
         foreach ($components as $dir => $repository) {
             if ($repository) {
-                $command = 'git subtree push --prefix=%s git@github.com:%s.git master --squash';
-                $command = sprintf($command, $dir, $repository);
+                $command = 'cd %s && git subtree push --prefix=%s git@github.com:%s.git master --squash';
+                $command = sprintf($command, $this->repositoryDir, $dir, $repository);
                 echo $command . PHP_EOL;
                 exec($command);
             }
