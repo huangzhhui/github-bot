@@ -58,6 +58,7 @@ class MergePullRequest extends AbstractEnpoint
             // Add a comment to notice the member the merge operation failure.
             Coroutine::sleep(10);
             $this->addComment('( Ĭ ^ Ĭ ) Merge the pull request failed, please help me ~~~');
+            echo $response->getStatusCode() . ':' . $response->getBody()->getContents() . PHP_EOL;
         }
     }
 }

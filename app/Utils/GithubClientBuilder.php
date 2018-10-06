@@ -21,7 +21,7 @@ class GithubClientBuilder
                 'Authorization' => 'token ' . config('github.access_token'),
             ],
             '_options' => [
-                'timeout' => 20,
+                'timeout' => 60,
             ],
         ]);
     }

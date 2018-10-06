@@ -31,7 +31,7 @@ class IssueCommentHandler extends AbstractHandler
 
     public function handle(Request $request)
     {
-        $this->logger->debug('Receive a request.');
+        $this->logger->debug('Receive a issue comment request.');
         $issue = $request->json(null, []);
         $comment = $request->json('comment.body', []);
         if (! $issue || ! $comment) {

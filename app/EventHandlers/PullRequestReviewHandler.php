@@ -5,6 +5,7 @@
  */
 namespace App\EventHandlers;
 
+use Psr\Log\LoggerInterface;
 use Swoft\Bean\Annotation\Bean;
 use Swoft\Bean\Annotation\Inject;
 use Swoft\Http\Message\Server\Request;
@@ -20,14 +21,26 @@ class PullRequestReviewHandler extends AbstractHandler
      */
     protected $commandManager;
 
+    /**
+     * @Inject("logger")
+     * @var LoggerInterface
+     */
+    protected $logger;
+
     public function handle(Request $request)
     {
+        $this->logger->debug('Receive a pull request review request.');
         $issue = $request->json(null, []);
         $comment = $request->json('review.body', []);
         if (! $issue || ! $comment) {
-            return response()->withStatus(400, 'Invalid argument.');
+            $message = 'Invalid argument.';
+            $this->logger->debug($message);
+            return response()->withStatus(400, $message);
         }
         $commands = $this->parseCommands($comment);
+        if (! $commands) {
+            $this->logger->debug('Receive a request, but no command.');
+        }
         foreach ($commands as $command) {
             $this->commandManager->execute($command, $issue);
         }
