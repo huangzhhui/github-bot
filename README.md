@@ -41,3 +41,8 @@ Example:
 simple command: `/release`   
 specified repository: `/release huangzhhui/github-bot`   
 specified repository and version: `/release huangzhhui/github-bot 1.0.1`   
+
+### `/distribute`
+Distribute the changes of PR to the components, notice that this command build for [swoft](https://github.com/swoft-cloud), not for everyone. 
+This command only works when the owners reply in the repositories configs in  `github.distribute.repositories(./config/properties/app.php)`.    
+The distribute rules place in `github.distribute.distribute_mapping(./config/properties/app.php)`, this rules guide the robot how to distribute the components. 
