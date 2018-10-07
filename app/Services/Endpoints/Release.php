@@ -89,6 +89,9 @@ class Release extends AbstractEnpoint
             return;
         }
         $commits = $this->getUnReleaseCommits($latestVersionTagSha);
+        if (! $commits) {
+            return;
+        }
         $releaseContent = $this->buildReleaseContent($commits);
         $uri = GithubUrlBuilder::buildReleasesUrl($this->project);
         [$version, $latestVersion] = $this->getReleaseVersion($this->version, $latestVersionRelease['tag_name']);
@@ -249,9 +252,11 @@ class Release extends AbstractEnpoint
                     $continue = false;
                     break;
                 }
+                $messages = $commit['commit']['message'];
+                $commitMessage = explode(PHP_EOL, $messages)[0];
                 $unReleaseCommits[] = [
                     'sha' => $commit['sha'],
-                    'message' => $commit['commit']['message'],
+                    'message' => $commitMessage,
                 ];
             }
             // NO break, parse the next page
