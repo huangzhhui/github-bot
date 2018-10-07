@@ -27,7 +27,7 @@ return [
             // The prefix of pull request title that use to classified into the different part of release content.
             'message_cate' => [
                 'added' => ['feat:', 'feature:', 'add:'],
-                'changed' => ['change:', 'refactor:', 'modify:'],
+                'changed' => ['change:', 'refactor:', 'modify:', 'optimize:'],
                 'fixed' => ['fix:', 'fixed:'],
                 'deprecated' => ['deprecated:'],
                 'removed' => ['remove:', 'delete:'],
