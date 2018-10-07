@@ -26,11 +26,11 @@ return [
         'release' => [
             // The prefix of pull request title that use to classified into the different part of release content.
             'message_cate' => [
-                'added' => ['feat:', 'feature:', 'add:'],
-                'changed' => ['change:', 'refactor:', 'modify:', 'optimize:'],
+                'added' => ['feat:', 'feature:', 'add:', 'added:'],
+                'changed' => ['change:', 'refactor:', 'modify:', 'optimize:', 'changed:'],
                 'fixed' => ['fix:', 'fixed:'],
                 'deprecated' => ['deprecated:'],
-                'removed' => ['remove:', 'delete:'],
+                'removed' => ['remove:', 'delete:', 'removed:'],
             ],
             'message_template' => '@configs/templates/release.php',
             'repository_alias' => [
