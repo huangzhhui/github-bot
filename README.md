@@ -36,7 +36,7 @@ Many user: `/need-review @huangzhhui @huangzhhui`
 ### `/release [repository] [version]`
 Parameters:   
 `repository`: the repository name that you want to release a new version, default value is `self` (means the current repo that you comment).    
-`version`: the version that you want to released, default value is `step` (means the next fixed version, e.g. latest version of the repo is 1.1.9, then the versio will released is 1.1.10)   
+`version`: the version that you want to released, default value is `step` (means the next fixed version, e.g. latest version of the repo is 1.1.9, then the version will released is 1.1.10)   
 Example:    
 simple command: `/release`   
 specified repository: `/release huangzhhui/github-bot`   
