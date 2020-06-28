@@ -27,7 +27,7 @@ class PullRequestHandler extends AbstractHandler
 
     public function handle(RequestInterface $request)
     {
-        if (! $request instanceof \Hyperf\HttpServer\Contract\RequestInterface || ! $this->enable) {
+        if (! $request instanceof \Hyperf\HttpServer\Contract\RequestInterface) {
             return;
         }
         $this->logger->debug('Receive a new pull requests.');
