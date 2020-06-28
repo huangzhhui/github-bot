@@ -50,7 +50,7 @@ class SwitchTo extends AbstractEnpoint
             return;
         }
         $title = $this->requestBody['issue']['title'] ?? '';
-        $labels = $this->requestBody['labels'] ?? [];
+        $labels = $this->requestBody['issue']['labels'] ?? [];
         $changedtitle = $this->modifyTitle($title, $type);
         $changedLabels = $this->modifyLabels($labels, $type);
         $response = $client->patch($issueUrl, [
@@ -91,7 +91,9 @@ class SwitchTo extends AbstractEnpoint
             $labels[$key] = $label['name'];
         }
 
+        $labels = array_flip($labels);
         unset($labels['bug'], $labels['question'], $labels['enhancement']);
+        $labels = array_flip($labels);
         switch ($type) {
             case 'bug':
             case 'question':
