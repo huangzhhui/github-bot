@@ -21,6 +21,10 @@ return [
             'hyperf/hyperf',
             'hyperf/hyperf-skeleton',
             'hyperf/nano',
+            'hyperf/gotask',
+            'hyperf/hyperf-docker',
+            'hyperf/biz-skeleton',
+            'hyperf/ndnice-theme',
         ],
     ],
 ];
