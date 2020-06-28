@@ -23,7 +23,7 @@ class SignatureService
     public function isValid(RequestInterface $request): bool
     {
         [$algo, $hash] = explode('=', $request->getHeaderLine(GithubService::HEADER_SIGNATURE), 2);
-        $payloadHash = hash_hmac($algo, $request->raw(''), $this->getSecret());
+        $payloadHash = hash_hmac($algo, $request->getBody()->getContents() ?? '', $this->getSecret());
         return $payloadHash === $hash;
     }
 
