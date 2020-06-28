@@ -25,6 +25,7 @@ return [
             'hyperf/hyperf-docker',
             'hyperf/biz-skeleton',
             'hyperf/ndnice-theme',
+            'hyperf/github-bot',
         ],
     ],
 ];
