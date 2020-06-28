@@ -32,18 +32,6 @@ class PullRequestHandler extends AbstractHandler
      */
     protected $eventDispatcher;
 
-    /**
-     * @Value("github.pr-auto-close.enable")
-     * @var bool
-     */
-    protected $enable = false;
-
-    /**
-     * @Value("github.pr-auto-close.excepts")
-     * @var array
-     */
-    protected $excepts = [];
-
     public function handle(RequestInterface $request)
     {
         if (! $request instanceof \Hyperf\HttpServer\Contract\RequestInterface || ! $this->enable) {

@@ -7,6 +7,7 @@ namespace App\Listener;
 use App\Event\ReceivedPullRequest;
 use App\Traits\ClientTrait;
 use App\Traits\CommentTrait;
+use Hyperf\Contract\ConfigInterface;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
 use Hyperf\Event\Contract\ListenerInterface;
@@ -30,10 +31,23 @@ class ClosePullRequestListener implements ListenerInterface
      */
     protected $logger;
 
+    /**
+     * @var bool
+     */
+    protected $enable;
+
+    /**
+     * @var array
+     */
+    protected $excepts;
+
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->logger = $container->get(LoggerInterface::class);
+        $config = $container->get(ConfigInterface::class);
+        $this->enable = $config->get('github.pr-auto-close.enable', false);
+        $this->excepts = $config->get('github.pr-auto-close.excepts', []);
     }
 
     public function listen(): array
