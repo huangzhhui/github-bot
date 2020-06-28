@@ -8,6 +8,7 @@ namespace App\Controller;
 use App\EventHandler\EventHandlerManager;
 use App\Service\GithubService;
 use App\Service\SignatureService;
+use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
@@ -31,17 +32,25 @@ class WebhookController extends AbstractController
     protected $eventHandlerManager;
 
     /**
+     * @Value("github.debug.auth")
+     * @var string
+     */
+    protected $debugAuth;
+
+    /**
      * @RequestMapping("webhook")
      */
     public function callback()
     {
-        if (! $this->isValidWebhook($this->request)) {
-            return $this->response->withStatus(400);
+        if (! $this->debugAuth) {
+            if (! $this->isValidWebhook($this->request)) {
+                return $this->response->withStatus(400);
+            }
+            if (! $this->signatureService->isValid($this->request)) {
+                return $this->response->withStatus(401);
+            }
         }
         $event = $this->request->getHeaderLine(GithubService::HEADER_EVENT);
-        if (! $this->signatureService->isValid($this->request)) {
-            return $this->response->withStatus(401);
-        }
         $handler = $this->eventHandlerManager->getHandler($event);
         return $handler->handle($this->request);
     }

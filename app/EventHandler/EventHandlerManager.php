@@ -19,6 +19,7 @@ class EventHandlerManager
     protected $events = [
         'issue_comment' => IssueCommentHandler::class,
         'pull_request_review' => PullRequestReviewHandler::class,
+        'pull_request' => PullRequestHandler::class
     ];
 
     /**
@@ -34,7 +35,7 @@ class EventHandlerManager
      */
     public function getHandler(string $event): AbstractHandler
     {
-        $this->logger->debug(sprintf('Receive a %s event', $event));
+        $this->logger->debug(sprintf('Receive %s event.', $event));
         if (! isset($this->events[$event])) {
             throw new EventHandlerNotExistException('Event handler not exist.');
         }

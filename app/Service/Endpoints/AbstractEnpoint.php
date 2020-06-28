@@ -6,6 +6,8 @@
 namespace App\Service\Endpoints;
 
 use App\Service\EndpointInterface;
+use App\Traits\ClientTrait;
+use App\Traits\CommentTrait;
 use App\Utils\GithubClientBuilder;
 use App\Utils\GithubUrlBuilder;
 use GuzzleHttp\Client;
@@ -16,40 +18,7 @@ use Psr\Http\Message\ResponseInterface;
 abstract class AbstractEnpoint implements EndpointInterface
 {
 
-    /**
-     * @var ClientFactory
-     */
-    protected $clientFactory;
-
-    public function __construct(ClientFactory $clientFactory)
-    {
-        $this->clientFactory = $clientFactory;
-    }
-
-    protected function getClient(): Client
-    {
-        $baseUri = 'https://api.github.com';
-        return $this->clientFactory->create([
-            'base_uri' => $baseUri,
-            'headers' => [
-                'User-Agent' => config('github.user_agent', 'Github-Bot'),
-                'Authorization' => 'token ' . config('github.access_token'),
-            ],
-            '_options' => [
-                'timeout' => 60,
-            ],
-        ]);
-    }
-
-    protected function addComment(string $comment): ResponseInterface
-    {
-        $uri = GithubUrlBuilder::buildIssueUrl($this->repository, $this->pullRequestId) . '/comments';
-        return $this->getClient()->post($uri, [
-            'json' => [
-                'body' => $comment,
-            ],
-        ])->getResponse();
-    }
+    use ClientTrait, CommentTrait;
 
     /**
      * Parse the target users from the body of request.
@@ -80,7 +49,7 @@ abstract class AbstractEnpoint implements EndpointInterface
                     }
                 }
                 if ($approvedUsers) {
-                    $comment = "[APPROVAL NOTIFIER] This pull-request is **APPROVED**\r\n\r\nThis pull-request has been approved by: " . implode(' ', $approvedUsers);
+                    $comment = "[This is a message created by hyperf-bot]\r\n[APPROVAL NOTIFIER] This pull-request is **APPROVED**\r\n\r\nThis pull-request has been approved by: " . implode(' ', $approvedUsers);
                     $this->addComment($comment);
                 }
             }

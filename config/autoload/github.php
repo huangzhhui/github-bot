@@ -11,4 +11,13 @@ return [
     'merge' => [
         'method' => env('GITHUB_MERGE_METHOD', 'squash'),
     ],
+    'pr-auto-close' => [
+        'enable' => env('GITHUB_PR_AUTO_CLOSE', false),
+        // The PRs of projects that in `excepts` will not close automatically, even enable is true.
+        'excepts' => [
+            'hyperf/hyperf',
+            'hyperf/hyperf-skeleton',
+            'hyperf/nano',
+        ],
+    ],
 ];
