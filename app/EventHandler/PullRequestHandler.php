@@ -56,7 +56,7 @@ class PullRequestHandler extends AbstractHandler
         }
         $pullRequestId = $request->input('number', 0);
         $currentState = $request->input('pull_request.state', '');
-        $senderName = $request->input('sender.name', '');
+        $senderName = $request->input('sender.login', '');
         try {
             retry(3, function () use ($repository, $pullRequestId, $currentState, $senderName) {
                 if ($currentState === 'closed') {
