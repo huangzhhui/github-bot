@@ -6,19 +6,12 @@
 namespace App\EventHandler;
 
 use App\Event\ReceivedPullRequest;
-use App\Traits\ClientTrait;
-use App\Traits\CommentTrait;
-use App\Utils\GithubUrlBuilder;
-use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
-use Throwable;
 
 class PullRequestHandler extends AbstractHandler
 {
-
-    use ClientTrait, CommentTrait;
 
     /**
      * @Inject()
