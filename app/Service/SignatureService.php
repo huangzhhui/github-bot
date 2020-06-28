@@ -24,6 +24,7 @@ class SignatureService
     {
         [$algo, $hash] = explode('=', $request->getHeaderLine(GithubService::HEADER_SIGNATURE), 2);
         $payloadHash = hash_hmac($algo, $request->getBody()->getContents() ?? '', $this->getSecret());
+        var_dump($request->getBody()->getContents());
         return $payloadHash === $hash;
     }
 

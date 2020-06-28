@@ -11,6 +11,9 @@ return [
     'merge' => [
         'method' => env('GITHUB_MERGE_METHOD', 'squash'),
     ],
+    'comment' => [
+        'header' => "**[This message is created by [hyperf-bot](https://github.com/huangzhhui/github-bot)]**\r\n\r\n"
+    ],
     'pr-auto-close' => [
         'enable' => env('GITHUB_PR_AUTO_CLOSE', false),
         // The PRs of projects that in `excepts` will not close automatically, even enable is true.

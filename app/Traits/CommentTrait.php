@@ -14,6 +14,7 @@ trait CommentTrait
     {
         $repository = $repository ?? $this->repository;
         $pullRequestId = $pullRequestId ?? $this->pullRequestId;
+        $comment = config('github.comment.header') . $comment;
         $uri = GithubUrlBuilder::buildIssueUrl($repository, $pullRequestId) . '/comments';
         return $this->getClient()->post($uri, [
             'json' => [

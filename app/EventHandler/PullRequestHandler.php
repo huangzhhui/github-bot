@@ -101,7 +101,7 @@ class PullRequestHandler extends AbstractHandler
 
     protected function addClosedComment(string $repository, int $pullRequestId): bool
     {
-        $comment = "[This is a message created by hyperf-bot]\r\nPlease submit your Pull Request to [hyperf/hyperf](https://github.com/hyperf/hyperf) repository, this Pull Request will close automatically.";
+        $comment = "Please submit your Pull Request to [hyperf/hyperf](https://github.com/hyperf/hyperf) repository, this Pull Request will close automatically.";
         $response = $this->addComment($comment, $repository, $pullRequestId);
         return $response->getStatusCode() === 200;
     }

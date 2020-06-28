@@ -49,7 +49,7 @@ abstract class AbstractEnpoint implements EndpointInterface
                     }
                 }
                 if ($approvedUsers) {
-                    $comment = "[This is a message created by hyperf-bot]\r\n[APPROVAL NOTIFIER] This pull-request is **APPROVED**\r\n\r\nThis pull-request has been approved by: " . implode(' ', $approvedUsers);
+                    $comment = "[APPROVAL NOTIFIER] This pull-request is **APPROVED**\r\n\r\nThis pull-request has been approved by: " . implode(' ', $approvedUsers);
                     $this->addComment($comment);
                 }
             }
