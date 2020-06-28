@@ -56,12 +56,13 @@ class PullRequestHandler extends AbstractHandler
         }
         $pullRequestId = $request->input('number', 0);
         $currentState = $request->input('pull_request.state', '');
+        $senderName = $request->input('sender.name', '');
         try {
-            retry(3, function () use ($repository, $pullRequestId, $currentState) {
+            retry(3, function () use ($repository, $pullRequestId, $currentState, $senderName) {
                 if ($currentState === 'closed') {
                     return;
                 }
-                $commentResult = $this->addClosedComment($repository, $pullRequestId);
+                $commentResult = $this->addClosedComment($repository, $pullRequestId, $senderName);
                 if ($commentResult) {
                     $this->logger->info(sprintf('Pull Request %s#%d added auto comment.', $repository, $pullRequestId));
                 } else {
@@ -99,9 +100,10 @@ class PullRequestHandler extends AbstractHandler
         return $response->getStatusCode() === 200;
     }
 
-    protected function addClosedComment(string $repository, int $pullRequestId): bool
+    protected function addClosedComment(string $repository, int $pullRequestId, string $senderName): bool
     {
-        $comment = "Please submit your Pull Request to [hyperf/hyperf](https://github.com/hyperf/hyperf) repository, this Pull Request will close automatically.";
+        $senderName = $senderName ? '@' . $senderName : '';
+        $comment = "Hi $senderName, this is a READ-ONLY repository, please submit your Pull Request to [hyperf/hyperf](https://github.com/hyperf/hyperf) repository, this Pull Request will close automatically.";
         $response = $this->addComment($comment, $repository, $pullRequestId);
         return $response->getStatusCode() === 200;
     }
