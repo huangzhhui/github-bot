@@ -5,6 +5,7 @@
  */
 namespace App\EventHandler;
 
+use App\Event\ReceivedPullRequest;
 use App\Traits\ClientTrait;
 use App\Traits\CommentTrait;
 use App\Utils\GithubUrlBuilder;
@@ -21,15 +22,15 @@ class PullRequestHandler extends AbstractHandler
 
     /**
      * @Inject()
-     * @var CommandManager
-     */
-    protected $commandManager;
-
-    /**
-     * @Inject()
      * @var LoggerInterface
      */
     protected $logger;
+
+    /**
+     * @Inject()
+     * @var \Psr\EventDispatcher\EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
     /**
      * @Value("github.pr-auto-close.enable")
@@ -49,63 +50,10 @@ class PullRequestHandler extends AbstractHandler
             return;
         }
         $this->logger->debug('Receive a new pull requests.');
-        $repository = $request->input('repository.full_name', '');
-        if (! $this->isHyperfComponentRepo($repository)) {
-            // Should not close this PR automatically.
-            return $this->response()->withStatus(200);
-        }
-        $pullRequestId = $request->input('number', 0);
-        $currentState = $request->input('pull_request.state', '');
-        $senderName = $request->input('sender.login', '');
-        try {
-            retry(3, function () use ($repository, $pullRequestId, $currentState, $senderName) {
-                if ($currentState === 'closed') {
-                    return;
-                }
-                $commentResult = $this->addClosedComment($repository, $pullRequestId, $senderName);
-                if ($commentResult) {
-                    $this->logger->info(sprintf('Pull Request %s#%d added auto comment.', $repository, $pullRequestId));
-                } else {
-                    $this->logger->warning(sprintf('Pull Request %s#%d add auto comment failed.', $repository, $pullRequestId));
-                }
-                $closeResult = $this->closePullRequest($repository, $pullRequestId, $currentState);
-                if ($closeResult) {
-                    $this->logger->info(sprintf('Pull Request %s#%d has been closed.', $repository, $pullRequestId));
-                } else {
-                    $this->logger->warning(sprintf('Pull Request %s#%d close failed.', $repository, $pullRequestId));
-                }
-            }, 5);
-        } catch (Throwable $e) {
-            // Do nothing
-        }
-        return $this->response()->withStatus(200);
-    }
-
-    protected function isHyperfComponentRepo(string $repository): bool
-    {
-        return ! in_array($repository, $this->excepts);
-    }
-
-    protected function closePullRequest(string $repository, int $pullRequestId): bool
-    {
-        if (! $repository || $pullRequestId === 0) {
-            return false;
-        }
-        $this->logger->debug(sprintf('Pull Request %s#%d is closing.', $repository, $pullRequestId));
-        $response = $this->getClient()->patch(GithubUrlBuilder::buildPullRequestUrl($repository, $pullRequestId), [
-            'json' => [
-                'state' => 'closed',
-            ],
-        ]);
-        return $response->getStatusCode() === 200;
-    }
-
-    protected function addClosedComment(string $repository, int $pullRequestId, string $senderName): bool
-    {
-        $senderName = $senderName ? '@' . $senderName : '';
-        $comment = "Hi $senderName, this is a READ-ONLY repository, please submit your Pull Request to [hyperf/hyperf](https://github.com/hyperf/hyperf) repository, this Pull Request will close automatically.";
-        $response = $this->addComment($comment, $repository, $pullRequestId);
-        return $response->getStatusCode() === 200;
+        $response = $this->response()->withStatus(200);
+        $event = new ReceivedPullRequest($request, $response);
+        $this->eventDispatcher->dispatch($event);
+        return $event->response;
     }
 
 }

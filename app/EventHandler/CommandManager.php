@@ -38,6 +38,7 @@ class CommandManager
         '/remove-assign',
         '/release',
         '/log',
+        '/switch-to',
     ];
 
     public function execute(string $command, array $target): void
@@ -78,6 +79,10 @@ class CommandManager
                 break;
             case '/log':
                 $endPoint = new Endpoints\Log($target);
+                break;
+            case '/switch-to':
+                $body = $this->parseBody($explodedCommand);
+                $endPoint = new Endpoints\SwitchTo($repository, $pullRequestId, $body);
                 break;
         }
         if ($endPoint instanceof EndpointInterface) {
