@@ -70,9 +70,10 @@ class SwitchTo extends AbstractEnpoint
         $start = strpos($title, '[');
         $end = strpos($title, ']');
         if ($start !== false && $end !== false && $end > $start) {
-            $title = substr($title, $start, $end - $start);
+            $prefix = substr($title, $start, $end - $start +  1);
+            $title = str_replace($prefix, '', $title);
         }
-        $title = '[' . strtoupper($type) . '] ' . $title;
+        $title = '[' . strtoupper($type) . '] ' . trim($title);
         return $title;
     }
 
