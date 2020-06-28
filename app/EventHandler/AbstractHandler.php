@@ -13,7 +13,7 @@ use Psr\Http\Message\RequestInterface;
 
 abstract class AbstractHandler
 {
-    abstract public function handle(RequestInterface $request);
+    abstract public function handle(RequestInterface $request): ResponseInterface;
 
     protected function response(): ResponseInterface
     {

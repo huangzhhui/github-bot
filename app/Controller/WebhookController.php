@@ -54,7 +54,7 @@ class WebhookController extends AbstractController
         }
         $event = $this->request->getHeaderLine(GithubService::HEADER_EVENT);
         $handler = $this->eventHandlerManager->getHandler($event);
-        return $handler->handle($this->request);
+        return $handler->handle($this->request)->withHeader('Event-Handler', get_class($handler));
     }
 
     private function isValidWebhook(RequestInterface $request): bool

@@ -8,6 +8,7 @@ declare(strict_types=1);
 namespace App\EventHandler;
 
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
@@ -25,10 +26,10 @@ class PullRequestReviewHandler extends AbstractHandler
      */
     protected $logger;
 
-    public function handle(RequestInterface $request)
+    public function handle(RequestInterface $request): ResponseInterface
     {
         if (! $request instanceof \Hyperf\HttpServer\Contract\RequestInterface) {
-            return;
+            return $this->response();
         }
         $this->logger->debug('Receive a pull request review request.');
         $issue = $request->all();

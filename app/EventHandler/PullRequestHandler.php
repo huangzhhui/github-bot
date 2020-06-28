@@ -9,6 +9,7 @@ namespace App\EventHandler;
 
 use App\Event\ReceivedPullRequest;
 use Hyperf\Di\Annotation\Inject;
+use Hyperf\HttpServer\Contract\ResponseInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Log\LoggerInterface;
 
@@ -26,10 +27,10 @@ class PullRequestHandler extends AbstractHandler
      */
     protected $eventDispatcher;
 
-    public function handle(RequestInterface $request)
+    public function handle(RequestInterface $request): ResponseInterface
     {
         if (! $request instanceof \Hyperf\HttpServer\Contract\RequestInterface) {
-            return;
+            return $this->response();
         }
         $this->logger->debug('Receive a new pull requests.');
         $response = $this->response()->withStatus(200);
