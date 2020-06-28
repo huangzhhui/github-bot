@@ -44,7 +44,7 @@ class Assign extends AbstractEnpoint
             'json' => [
                 'assignees' => $assignUsers,
             ],
-        ])->getResponse();
+        ]);
         if ($response->getStatusCode() !== 201) {
             Coroutine::sleep(10);
             $this->addSorryComment();

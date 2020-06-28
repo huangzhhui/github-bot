@@ -44,7 +44,7 @@ class RemoveAssign extends AbstractEnpoint
             'json' => [
                 'assignees' => $assignees,
             ],
-        ])->getResponse();
+        ]);
         if ($response->getStatusCode() !== 201) {
             Coroutine::sleep(10);
             $this->addSorryComment();

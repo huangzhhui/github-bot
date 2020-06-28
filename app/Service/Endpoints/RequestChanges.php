@@ -46,6 +46,6 @@ class RequestChanges extends AbstractEnpoint
                 'body' => $this->body,
                 'event' => $status,
             ]
-        ])->getResponse();
+        ]);
     }
 }

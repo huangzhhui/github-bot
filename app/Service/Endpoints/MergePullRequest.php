@@ -53,7 +53,7 @@ class MergePullRequest extends AbstractEnpoint
         $pullRequestTitle && $params['commit_title'] = $pullRequestTitle;
         $response = $this->getClient()->put($mergeUrl, [
             'json' => $params
-        ])->getResponse();
+        ]);
         if ($response->getStatusCode() !== 200) {
             // Add a comment to notice the member the merge operation failure.
             Coroutine::sleep(10);

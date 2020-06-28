@@ -44,7 +44,7 @@ class NeedReview extends AbstractEnpoint
             'json' => [
                 'reviewers' => $reviewers,
             ],
-        ])->getResponse();
+        ]);
         if ($response->getStatusCode() !== 201) {
             Coroutine::sleep(10);
             $this->addSorryComment();

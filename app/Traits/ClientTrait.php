@@ -5,21 +5,16 @@ namespace App\Traits;
 
 
 use GuzzleHttp\Client;
-use Hyperf\Di\Annotation\Inject;
 use Hyperf\Guzzle\ClientFactory;
+use Hyperf\Utils\ApplicationContext;
 
 trait ClientTrait
 {
 
-    /**
-     * @Inject()
-     * @var ClientFactory
-     */
-    protected $clientFactory;
-
     protected function getClient(string $baseUri = 'https://api.github.com'): Client
     {
-        return $this->clientFactory->create([
+        $clientFactory = ApplicationContext::getContainer()->get(ClientFactory::class);
+        return $clientFactory->create([
             'base_uri' => $baseUri,
             'headers' => [
                 'User-Agent' => config('github.user_agent', 'Github-Bot'),

@@ -39,7 +39,7 @@ abstract class AbstractEnpoint implements EndpointInterface
     {
         try {
             $uri = GithubUrlBuilder::buildReviewsUrl($repository, $pullRequestId);
-            $response = $this->getClient()->get($uri)->getResponse();
+            $response = $this->getClient()->get($uri);
             if ($response->getStatusCode() === 200 && $content = $response->getBody()->getContents()) {
                 $approvedUsers = [];
                 $decodedBody = json_decode($content, true);

@@ -31,7 +31,7 @@ class IssueCommentHandler extends AbstractHandler
             return;
         }
         $this->logger->debug('Receive a issue comment request.');
-        $issue = $request->input(null, []);
+        $issue = $request->all();
         $comment = $request->input('comment.body', []);
         if (! $issue || ! $comment) {
             $message = 'Invalid argument.';
