@@ -7,6 +7,7 @@ namespace App\Listener;
 use App\Event\ReceivedPullRequest;
 use App\Traits\ClientTrait;
 use App\Traits\CommentTrait;
+use App\Utils\GithubUrlBuilder;
 use Hyperf\Contract\ConfigInterface;
 use Hyperf\Event\Annotation\Listener;
 use Psr\Container\ContainerInterface;
@@ -90,7 +91,7 @@ class ClosePullRequestListener implements ListenerInterface
                     $this->logger->warning(sprintf('Pull Request %s#%d close failed.', $repository, $pullRequestId));
                 }
             }, 5);
-        } catch (Throwable $e) {
+        } catch (\Throwable $e) {
             $response = $response->withStatus(500)->withHeader('Exception-Message', $e->getMessage());
         } finally {
             $event->response = $response;
