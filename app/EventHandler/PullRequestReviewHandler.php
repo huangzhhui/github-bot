@@ -31,7 +31,7 @@ class PullRequestReviewHandler extends AbstractHandler
             return;
         }
         $this->logger->debug('Receive a pull request review request.');
-        $issue = $request->input(null, []);
+        $issue = $request->all();
         $comment = $request->input('review.body', []);
         if (! $issue || ! $comment) {
             $message = 'Invalid argument.';

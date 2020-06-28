@@ -3,10 +3,12 @@
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
+
 namespace App\Service\Endpoints;
 
 use a;
 use App\Utils\GithubUrlBuilder;
+use Hyperf\Utils\Codec\Json;
 use Swoole\Coroutine;
 
 class SwitchTo extends AbstractEnpoint
@@ -26,23 +28,29 @@ class SwitchTo extends AbstractEnpoint
      */
     protected $body;
 
-    public function __construct(string $repository, int $issueId, string $body)
+    /**
+     * @var array
+     */
+    protected $requestBody;
+
+    public function __construct(string $repository, int $issueId, string $body, array $requestBody)
     {
         $this->repository = $repository;
         $this->issueId = $issueId;
         $this->body = $body;
+        $this->requestBody = $requestBody;
     }
 
     public function __invoke()
     {
         $client = $this->getClient();
         $issueUrl = GithubUrlBuilder::buildIssueUrl($this->repository, $this->issueId);
-        $type = $this->parseType();
+        $type = trim($this->body);
         if (! $type) {
             return;
         }
-        $title = $this->body['issue']['title'] ?? '';
-        $labels = $this->body['labels'] ?? [];
+        $title = $this->requestBody['issue']['title'] ?? '';
+        $labels = $this->requestBody['labels'] ?? [];
         $changedtitle = $this->modifyTitle($title, $type);
         $changedLabels = $this->modifyLabels($labels, $type);
         $response = $client->patch($issueUrl, [
@@ -63,8 +71,8 @@ class SwitchTo extends AbstractEnpoint
         $end = strpos($title, ']');
         if ($start !== false && $end !== false && $end > $start) {
             $title = substr($title, $start, $end - $start);
-            $title = strtoupper($type) . ' ' . $title;
         }
+        $title = '[' . strtoupper($type) . '] ' . $title;
         return $title;
     }
 

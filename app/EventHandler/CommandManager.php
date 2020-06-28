@@ -83,7 +83,7 @@ class CommandManager
                 break;
             case '/switch-to':
                 $body = $this->parseBody($explodedCommand);
-                $endPoint = new Endpoints\SwitchTo($repository, $pullRequestId, $body);
+                $endPoint = new Endpoints\SwitchTo($repository, $pullRequestId, $body, $target);
                 break;
         }
         if ($endPoint instanceof EndpointInterface) {
