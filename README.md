@@ -35,7 +35,7 @@ Many user: `/need-review @huangzhhui @huangzhhui`
 ### `/switch-to [type]`
 Switch this issue to `question`, `bug` or `feature request`
 Parameters:   
-`type`: *[REQUIRED]* the type of the issues, `question|bug\feature`  
+`type`: *[REQUIRED]* the type of the issues, `question|bug|feature`  
 Example:    
 Switch to support question: `/switch-to question`
 Switch to bug report: `/switch-to bug`
