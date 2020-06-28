@@ -1,5 +1,10 @@
 <?php
 
+declare(strict_types=1);
+/**
+ * @contact huangzhwork@gmail.com
+ * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
+ */
 namespace App\Controller;
 
 use App\EventHandler\EventHandlerManager;
@@ -7,18 +12,14 @@ use Hyperf\Config\Annotation\Value;
 use Hyperf\Di\Annotation\Inject;
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
-use Hyperf\HttpServer\Contract\RequestInterface;
-use Hyperf\HttpServer\Contract\ResponseInterface;
-
 
 /**
- * @Controller()
+ * @Controller
  */
 class DebugController extends AbstractController
 {
-
     /**
-     * @Inject()
+     * @Inject
      * @var EventHandlerManager
      */
     protected $eventHandlerManager;
@@ -46,5 +47,4 @@ class DebugController extends AbstractController
     {
         return $this->debugAuth;
     }
-
 }

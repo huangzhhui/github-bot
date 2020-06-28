@@ -1,16 +1,17 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
-
 namespace App\Controller;
 
 use Hyperf\HttpServer\Annotation\Controller;
 use Hyperf\HttpServer\Annotation\RequestMapping;
 
 /**
- * @Controller()
+ * @Controller
  */
 class IndexController extends AbstractController
 {
@@ -20,7 +21,7 @@ class IndexController extends AbstractController
     public function index(): array
     {
         return [
-            'Hello Github Bot. Build by Hyperf.'
+            'Hello Github Bot. Build by Hyperf.',
         ];
     }
 }

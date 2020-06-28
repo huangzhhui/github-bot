@@ -1,9 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
-
 namespace App\Service\Endpoints;
 
 use Hyperf\Di\Annotation\Inject;
@@ -13,9 +14,8 @@ use Hyperf\Di\Annotation\Inject;
  */
 class Log extends AbstractEnpoint
 {
-
     /**
-     * @Inject()
+     * @Inject
      * @var \Psr\Log\LoggerInterface
      */
     protected $logger;
@@ -34,5 +34,4 @@ class Log extends AbstractEnpoint
     {
         $this->logger->info(json_encode($this->target));
     }
-
 }

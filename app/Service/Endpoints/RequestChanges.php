@@ -1,11 +1,12 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
 namespace App\Service\Endpoints;
 
-use App\Utils\GithubClientBuilder;
 use App\Utils\GithubUrlBuilder;
 use Psr\Http\Message\ResponseInterface;
 
@@ -45,7 +46,7 @@ class RequestChanges extends AbstractEnpoint
             'json' => [
                 'body' => $this->body,
                 'event' => $status,
-            ]
+            ],
         ]);
     }
 }

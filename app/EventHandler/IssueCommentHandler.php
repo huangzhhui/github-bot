@@ -1,9 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
-
 namespace App\EventHandler;
 
 use Hyperf\Di\Annotation\Inject;
@@ -14,13 +15,13 @@ use function in_array;
 class IssueCommentHandler extends AbstractHandler
 {
     /**
-     * @Inject()
+     * @Inject
      * @var CommandManager
      */
     protected $commandManager;
 
     /**
-     * @Inject()
+     * @Inject
      * @var LoggerInterface
      */
     protected $logger;
@@ -69,8 +70,8 @@ class IssueCommentHandler extends AbstractHandler
     protected function isValidUser(array $issue): bool
     {
         return isset($issue['comment']['author_association']) && in_array($issue['comment']['author_association'], [
-                'MEMBER',
-                'OWNER'
-            ], true);
+            'MEMBER',
+            'OWNER',
+        ], true);
     }
 }

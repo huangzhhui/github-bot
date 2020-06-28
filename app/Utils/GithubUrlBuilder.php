@@ -1,14 +1,14 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
-
 namespace App\Utils;
 
 class GithubUrlBuilder
 {
-
     public static function buildRepositoryUrl(string $repository): string
     {
         return '/repos/' . $repository;
@@ -63,5 +63,4 @@ class GithubUrlBuilder
     {
         return self::buildRepositoryUrl($repository) . '/pulls/' . $issue . '/reviews';
     }
-
 }

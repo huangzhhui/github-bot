@@ -1,9 +1,10 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
-
 namespace App\EventHandler;
 
 use App\Service\EndpointInterface;
@@ -15,18 +16,6 @@ use Psr\Log\LoggerInterface;
 
 class CommandManager
 {
-    /**
-     * @Inject()
-     * @var GithubService
-     */
-    protected $githubService;
-
-    /**
-     * @Inject()
-     * @var LoggerInterface
-     */
-    protected $logger;
-
     public $commands = [
         '/approve',
         '/request-changes',
@@ -40,6 +29,18 @@ class CommandManager
         '/log',
         '/switch-to',
     ];
+
+    /**
+     * @Inject
+     * @var GithubService
+     */
+    protected $githubService;
+
+    /**
+     * @Inject
+     * @var LoggerInterface
+     */
+    protected $logger;
 
     public function execute(string $command, array $target): void
     {

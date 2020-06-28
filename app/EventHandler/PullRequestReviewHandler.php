@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
@@ -12,13 +14,13 @@ use Psr\Log\LoggerInterface;
 class PullRequestReviewHandler extends AbstractHandler
 {
     /**
-     * @Inject()
+     * @Inject
      * @var CommandManager
      */
     protected $commandManager;
 
     /**
-     * @Inject()
+     * @Inject
      * @var LoggerInterface
      */
     protected $logger;

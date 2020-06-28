@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
@@ -42,7 +44,7 @@ class MergePullRequest extends AbstractEnpoint
         $pullRequestTitle = value(function () {
             if (isset($this->target['issue']['title'])) {
                 return str_replace([
-                    'title', 'url'
+                    'title', 'url',
                 ], [
                     $this->target['issue']['title'],
                     $this->target['issue']['pull_request']['html_url'],
@@ -52,7 +54,7 @@ class MergePullRequest extends AbstractEnpoint
         });
         $pullRequestTitle && $params['commit_title'] = $pullRequestTitle;
         $response = $this->getClient()->put($mergeUrl, [
-            'json' => $params
+            'json' => $params,
         ]);
         if ($response->getStatusCode() !== 200) {
             // Add a comment to notice the member the merge operation failure.

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
@@ -8,7 +10,7 @@ namespace App\Utils;
 use GuzzleHttp\Client;
 
 /**
- * A builder for create a http client of Github API
+ * A builder for create a http client of Github API.
  */
 class GithubClientBuilder
 {

@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
@@ -20,13 +22,13 @@ use Hyperf\HttpServer\Contract\RequestInterface;
 class WebhookController extends AbstractController
 {
     /**
-     * @Inject()
+     * @Inject
      * @var SignatureService
      */
     protected $signatureService;
 
     /**
-     * @Inject()
+     * @Inject
      * @var EventHandlerManager
      */
     protected $eventHandlerManager;

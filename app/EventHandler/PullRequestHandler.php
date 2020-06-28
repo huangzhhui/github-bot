@@ -1,4 +1,6 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
@@ -12,15 +14,14 @@ use Psr\Log\LoggerInterface;
 
 class PullRequestHandler extends AbstractHandler
 {
-
     /**
-     * @Inject()
+     * @Inject
      * @var LoggerInterface
      */
     protected $logger;
 
     /**
-     * @Inject()
+     * @Inject
      * @var \Psr\EventDispatcher\EventDispatcherInterface
      */
     protected $eventDispatcher;
@@ -36,5 +37,4 @@ class PullRequestHandler extends AbstractHandler
         $this->eventDispatcher->dispatch($event);
         return $event->response;
     }
-
 }

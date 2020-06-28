@@ -1,16 +1,17 @@
 <?php
+
+declare(strict_types=1);
 /**
  * @contact huangzhwork@gmail.com
  * @license https://github.com/huangzhhui/github-bot/blob/master/LICENSE
  */
 namespace App\Service;
 
-
 use Hyperf\Config\Annotation\Value;
 use Psr\Http\Message\RequestInterface;
 
 /**
- * Github Webhoot Signature Service
+ * Github Webhoot Signature Service.
  */
 class SignatureService
 {
