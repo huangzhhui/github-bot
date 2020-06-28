@@ -74,23 +74,21 @@ class ClosePullRequestListener implements ListenerInterface
             $pullRequestId = $request->input('number', 0);
             $currentState = $request->input('pull_request.state', '');
             $senderName = $request->input('sender.login', '');
-            retry(3, function () use ($repository, $pullRequestId, $currentState, $senderName) {
-                if ($currentState === 'closed') {
-                    return;
-                }
-                $commentResult = $this->addClosedComment($repository, $pullRequestId, $senderName);
-                if ($commentResult) {
-                    $this->logger->info(sprintf('Pull Request %s#%d added auto comment.', $repository, $pullRequestId));
-                } else {
-                    $this->logger->warning(sprintf('Pull Request %s#%d add auto comment failed.', $repository, $pullRequestId));
-                }
-                $closeResult = $this->closePullRequest($repository, $pullRequestId, $currentState);
-                if ($closeResult) {
-                    $this->logger->info(sprintf('Pull Request %s#%d has been closed.', $repository, $pullRequestId));
-                } else {
-                    $this->logger->warning(sprintf('Pull Request %s#%d close failed.', $repository, $pullRequestId));
-                }
-            }, 5);
+            if ($currentState === 'closed') {
+                return;
+            }
+            $commentResult = $this->addClosedComment($repository, $pullRequestId, $senderName);
+            if ($commentResult) {
+                $this->logger->info(sprintf('Pull Request %s#%d added auto comment.', $repository, $pullRequestId));
+            } else {
+                $this->logger->warning(sprintf('Pull Request %s#%d add auto comment failed.', $repository, $pullRequestId));
+            }
+            $closeResult = $this->closePullRequest($repository, $pullRequestId, $currentState);
+            if ($closeResult) {
+                $this->logger->info(sprintf('Pull Request %s#%d has been closed.', $repository, $pullRequestId));
+            } else {
+                $this->logger->warning(sprintf('Pull Request %s#%d close failed.', $repository, $pullRequestId));
+            }
         } catch (\Throwable $e) {
             $response = $response->withStatus(500)->withHeader('Exception-Message', $e->getMessage());
         } finally {
