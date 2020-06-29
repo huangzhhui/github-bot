@@ -63,6 +63,9 @@ class ClosePullRequestListener implements ListenerInterface
      */
     public function process(object $event)
     {
+        if (! $this->enable) {
+            return;
+        }
         $request = $event->request;
         $response = $event->response;
         try {
@@ -70,11 +73,13 @@ class ClosePullRequestListener implements ListenerInterface
             if (! $this->isHyperfComponentRepo($repository)) {
                 // Should not close this PR automatically.
                 $response = $response->withStatus(200);
+                return;
             }
             $pullRequestId = $request->input('number', 0);
             $currentState = $request->input('pull_request.state', '');
             $senderName = $request->input('sender.login', '');
             if ($currentState === 'closed') {
+                $response = $response->withStatus(200);
                 return;
             }
             $commentResult = $this->addClosedComment($repository, $pullRequestId, $senderName);
