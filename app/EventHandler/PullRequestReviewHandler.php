@@ -39,6 +39,11 @@ class PullRequestReviewHandler extends AbstractHandler
             $this->logger->debug($message);
             return $this->response()->withStatus(400, $message);
         }
+        $reviewerAssociation = $request->input('review.author_association');
+        if ($reviewerAssociation !== 'MEMBER') {
+            $this->logger->debug('Receive a request, but not valid user.');
+            return $this->response()->withStatus(200);
+        }
         $commands = $this->parseCommands($comment);
         if (! $commands) {
             $this->logger->debug('Receive a request, but no command.');
