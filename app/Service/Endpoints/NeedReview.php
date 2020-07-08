@@ -36,13 +36,12 @@ class NeedReview extends AbstractEnpoint
 
     public function __invoke()
     {
-        $client = $this->getClient();
         $assigneesUrl = GithubUrlBuilder::buildReviewRequestUrl($this->repository, $this->pullRequestId);
         $reviewers = $this->parseTargetUsers();
         if (! $reviewers) {
             return;
         }
-        $response = $client->post($assigneesUrl, [
+        $response = $this->getClient()->post($assigneesUrl, [
             'json' => [
                 'reviewers' => $reviewers,
             ],

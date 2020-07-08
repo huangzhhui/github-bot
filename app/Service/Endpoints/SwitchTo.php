@@ -43,7 +43,6 @@ class SwitchTo extends AbstractEnpoint
 
     public function __invoke()
     {
-        $client = $this->getClient();
         $issueUrl = GithubUrlBuilder::buildIssueUrl($this->repository, $this->issueId);
         $type = trim($this->body);
         if (! $type) {
@@ -53,7 +52,7 @@ class SwitchTo extends AbstractEnpoint
         $labels = $this->requestBody['issue']['labels'] ?? [];
         $changedtitle = $this->modifyTitle($title, $type);
         $changedLabels = $this->modifyLabels($labels, $type);
-        $response = $client->patch($issueUrl, [
+        $response = $this->getClient()->patch($issueUrl, [
             'json' => [
                 'title' => $changedtitle,
                 'labels' => $changedLabels,

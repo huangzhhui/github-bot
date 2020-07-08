@@ -36,13 +36,12 @@ class Assign extends AbstractEnpoint
 
     public function __invoke()
     {
-        $client = $this->getClient();
         $assigneesUrl = GithubUrlBuilder::buildAssigneesUrl($this->repository, $this->issueId);
         $assignUsers = $this->parseTargetUsers();
         if (! $assignUsers) {
             return;
         }
-        $response = $client->post($assigneesUrl, [
+        $response = $this->getClient()->post($assigneesUrl, [
             'json' => [
                 'assignees' => $assignUsers,
             ],

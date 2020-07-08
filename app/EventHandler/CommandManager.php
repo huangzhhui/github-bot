@@ -51,7 +51,8 @@ class CommandManager
         $pullRequestId = $this->parseIssueId($target);
         switch ($prefix) {
             case '/merge':
-                $endPoint = new Endpoints\MergePullRequest($repository, $pullRequestId, $target);
+                $body = $this->parseBody($explodedCommand);
+                $endPoint = new Endpoints\MergePullRequest($repository, $pullRequestId, $body, $target);
                 break;
             case '/request-changes':
             case '/request_changes':

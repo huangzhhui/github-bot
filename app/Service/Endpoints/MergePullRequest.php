@@ -27,7 +27,12 @@ class MergePullRequest extends AbstractEnpoint
      */
     protected $target;
 
-    public function __construct(string $repository, int $pullRequestId, array $target)
+    /**
+     * @var string
+     */
+    protected $body;
+
+    public function __construct(string $repository, int $pullRequestId, string $body, array $target)
     {
         $this->repository = $repository;
         $this->pullRequestId = $pullRequestId;
@@ -39,7 +44,7 @@ class MergePullRequest extends AbstractEnpoint
         $this->addApprovedComment($this->repository, $this->pullRequestId);
         $mergeUrl = GithubUrlBuilder::buildPullRequestUrl($this->repository, $this->pullRequestId) . '/merge';
         $params = [
-            'merge_method' => config('github.merge.method', 'squash'),
+            'merge_method' => $this->body ? $this->body : config('github.merge.method', 'squash'),
         ];
         $pullRequestTitle = value(function () {
             if (isset($this->target['issue']['title'])) {

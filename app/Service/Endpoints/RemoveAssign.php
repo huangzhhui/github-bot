@@ -36,13 +36,12 @@ class RemoveAssign extends AbstractEnpoint
 
     public function __invoke()
     {
-        $client = $this->getClient();
         $assigneesUrl = GithubUrlBuilder::buildAssigneesUrl($this->repository, $this->issueId);
         $assignees = $this->parseTargetUsers();
         if (! $assignees) {
             return;
         }
-        $response = $client->delete($assigneesUrl, [
+        $response = $this->getClient()->delete($assigneesUrl, [
             'json' => [
                 'assignees' => $assignees,
             ],
