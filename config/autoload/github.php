@@ -26,6 +26,8 @@ return [
             'hyperf/biz-skeleton',
             'hyperf/ndnice-theme',
             'hyperf/github-bot',
+            'hyperf/jet',
+            'hyperf/hyperf.io',
         ],
     ],
 ];
