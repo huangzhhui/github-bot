@@ -28,6 +28,8 @@ return [
             'hyperf/github-bot',
             'hyperf/jet',
             'hyperf/hyperf.io',
+            'hyperf/engine',
+            'hyperf/engine-swow',
         ],
     ],
 ];
