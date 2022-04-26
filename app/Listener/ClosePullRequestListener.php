@@ -70,7 +70,7 @@ class ClosePullRequestListener implements ListenerInterface
         $response = $event->response;
         try {
             $repository = $request->input('repository.full_name', '');
-            if (! $this->isHyperfComponentRepo($repository)) {
+            if ($this->isExceptRepo($repository)) {
                 // Should not close this PR automatically.
                 $response = $response->withStatus(200);
                 return;
@@ -101,9 +101,19 @@ class ClosePullRequestListener implements ListenerInterface
         }
     }
 
-    protected function isHyperfComponentRepo(string $repository): bool
+    protected function isExceptRepo(string $repository): bool
     {
-        return ! in_array($repository, $this->excepts);
+        return in_array($repository, $this->excepts) or $this->matchExceptRepo($repository);
+    }
+
+    protected function matchExceptRepo(string $repository): bool
+    {
+        foreach ($this->excepts as $except) {
+            if (fnmatch($except, $repository)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     protected function closePullRequest(string $repository, int $pullRequestId): bool

@@ -19,7 +19,7 @@ return [
         // The PRs of projects that in `excepts` will not close automatically, even enable is true.
         'excepts' => [
             'hyperf/hyperf',
-            'hyperf/hyperf-skeleton',
+            'hyperf/*-skeleton',
             'hyperf/nano',
             'hyperf/gotask',
             'hyperf/hyperf-docker',
@@ -28,8 +28,13 @@ return [
             'hyperf/github-bot',
             'hyperf/jet',
             'hyperf/hyperf.io',
+            'hyperf/okr',
             'hyperf/engine',
             'hyperf/engine-swow',
+            'hyperf/homebrew-hyperf',
+            'hyperf/component-creater',
+            'hyperf/code-generator',
+            'hyperf/*-incubator'
         ],
     ],
 ];
